@@ -8,12 +8,10 @@ let cart = [];
    LOCAL STORAGE
 ========================= */
 
-// Guardar carrito
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// Cargar carrito
 function loadCart() {
   const storedCart = localStorage.getItem("cart");
   if (storedCart) {
@@ -26,7 +24,6 @@ function loadCart() {
    CARRITO
 ========================= */
 
-// Renderizar carrito
 function renderCart() {
   if (cart.length === 0) {
     cartContainer.innerHTML = "<p>No hay productos en el carrito</p>";
@@ -51,7 +48,6 @@ function renderCart() {
 
     const removeBtn = document.createElement("button");
     removeBtn.textContent = "❌";
-    removeBtn.style.marginLeft = "10px";
     removeBtn.addEventListener("click", () => removeFromCart(item.id));
 
     div.appendChild(text);
@@ -66,7 +62,6 @@ function renderCart() {
   saveCart();
 }
 
-// Agregar producto al carrito
 function addToCart(product) {
   const existing = cart.find(item => item.id === product.id);
 
@@ -79,7 +74,6 @@ function addToCart(product) {
   renderCart();
 }
 
-// Eliminar producto del carrito
 function removeFromCart(id) {
   const index = cart.findIndex(item => item.id === id);
 
@@ -94,7 +88,6 @@ function removeFromCart(id) {
   renderCart();
 }
 
-// Vaciar carrito
 function clearCart() {
   cart = [];
   saveCart();
@@ -102,10 +95,10 @@ function clearCart() {
 }
 
 /* =========================
-   PRODUCTOS
+   PRODUCTOS (RENDER)
 ========================= */
 
-fetch("http://localhost:5000/products")
+fetch("https://mini-ecommerce-6sk1.onrender.com/products")
   .then(res => res.json())
   .then(products => {
     productsContainer.innerHTML = "";
@@ -128,7 +121,8 @@ fetch("http://localhost:5000/products")
       productsContainer.appendChild(div);
     });
   })
-  .catch(() => {
+  .catch(error => {
+    console.error(error);
     productsContainer.innerHTML = "<p>Error cargando productos</p>";
   });
 
